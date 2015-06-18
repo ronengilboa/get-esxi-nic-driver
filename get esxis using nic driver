@@ -1,0 +1,11 @@
+####################### get hosts using a driver
+$esxis = get-vmhost
+
+foreach ($esxi in $esxis)
+{
+Write-Host ("host: $esxi.name")
+$esxcli = Get-EsxCli -VMHost $esxi
+$esxcli.network.nic.list() | where {$_.Driver -eq 'enic'} | select Description, Driver |ft -AutoSize
+}
+
+
